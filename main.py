@@ -29,7 +29,7 @@ def get_chat_history(persona_id, conversation_id, projection={"_id":0}):
 
 
 @app.route("/test-ollama")
-def hello_world():
+def test_ollama_f():
     from test_ollama import test_ollama
     r = test_ollama()
     return f"<p>{r}</p>"
