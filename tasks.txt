@@ -1,0 +1,35 @@
+
+POC - done
+===
+store three or more personalities in pinecone
+    create pinecone server
+    extract from wikipedia
+create entire RAG flow and store previous chat 
+    
+Phase-1
+=======
+user based login and logout - google authentication
+create short url to keep in thier personal profiles
+ingest the data
+    Q & A - mandatory questions / non mandatory questions
+    Upload files about person - pdf, docs, txt
+    Web URLs to extract - scraping
+    Blogs - wikipedia
+Create / update profile -  pic / bio / name
+User following and unfollwing - counts
+User posting about question which other users are not satisfied or agent is not able to answer
+Agents chat can review by other user
+
+
+Phase-2
+========
+store namespace and index in mongo
+synching feature based type of ingest
+multimodal - image, audio, video
+ingest the data
+    Social Media Apps - Linkedin, X, Instagram, Facebook, Threads
+    Blogs - Medium, Reddit, Quora
+Subscription
+
+
+
