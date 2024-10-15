@@ -96,7 +96,8 @@ const showTypingAnimation = () => {
     const incomingChatDiv = createChatElement(html, "incoming");
     chatContainer.appendChild(incomingChatDiv);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
-    getChatResponse(incomingChatDiv);
+    setTimeout(getChatResponse, 5000);
+
 }
 
 const handleOutgoingChat = () => {
@@ -119,7 +120,7 @@ const handleOutgoingChat = () => {
     chatContainer.querySelector(".default-text")?.remove();
     chatContainer.appendChild(outgoingChatDiv);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
-    setTimeout(showTypingAnimation, 20000);
+    setTimeout(showTypingAnimation, 500);
 }
 
 deleteButton.addEventListener("click", () => {
