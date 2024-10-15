@@ -35,8 +35,8 @@ const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p");
     var persona_id = $('#chat-input').attr('persona_id');
     var conv_id = $('#chat-input').attr('conversation_id');
-    const API_URL = `http://127.0.0.1:5000/interact/${persona_id}/${conv_id}`;
     // const API_URL = `http://127.0.0.1:5000/interact/${persona_id}/${conv_id}`;
+    const API_URL = `http://100.27.228.3/interact/${persona_id}/${conv_id}`;
 
     // Define the properties and data for the API request
     const requestOptions = {
