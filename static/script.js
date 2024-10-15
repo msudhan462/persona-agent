@@ -35,8 +35,8 @@ const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p");
     var persona_id = $('#chat-input').attr('persona_id');
     var conv_id = $('#chat-input').attr('conversation_id');
-    // const API_URL = `http://127.0.0.1:5000/interact/${persona_id}/${conv_id}`;
-    const API_URL = `http://100.27.228.3/interact/${persona_id}/${conv_id}`;
+    const API_URL = `http://127.0.0.1:5000/stream/${persona_id}/${conv_id}`;
+    // const API_URL = `http://100.27.228.3/interact/${persona_id}/${conv_id}`;
 
     // Define the properties and data for the API request
     const requestOptions = {
@@ -58,9 +58,40 @@ const getChatResponse = async (incomingChatDiv) => {
 
     // Send POST request to API, get response and set the reponse as paragraph element text
     try {
-        const response = await (await fetch(API_URL, requestOptions)).json();
-        console.log(response)
-        pElement.textContent = response.message
+
+        // Fetch API request
+        const response = await fetch(API_URL, requestOptions);
+
+        // Check if the response body is a readable stream
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder(); // To decode the stream of data into text
+
+        let isStreaming = true;
+
+        while (isStreaming) {
+            // Read the data chunk by chunk
+            const { done, value } = await reader.read();
+
+            // If no more data, stop streaming
+            if (done) {
+                isStreaming = false;
+                console.log("Streaming finished.");
+                break;
+            }
+
+            // Decode the received chunk
+            const chunk = decoder.decode(value, { stream: true });
+            
+            // Example: Append each chunk to a UI element
+            pElement.textContent += chunk
+            incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
+
+        }
+
+        // const response = await (await fetch(API_URL, requestOptions)).json();
+        // console.log(response)
+        // pElement.textContent = response.message
+
     } catch (error) { // Add error class to the paragraph element and set error text
         pElement.classList.add("error");
         pElement.textContent = "Oops! Something went wrong while retrieving the response. Please try again.";
@@ -68,7 +99,6 @@ const getChatResponse = async (incomingChatDiv) => {
 
     // Remove the typing animation, append the paragraph element and save the chats to local storage
     incomingChatDiv.querySelector(".typing-animation").remove();
-    incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
     localStorage.setItem("all-chats", chatContainer.innerHTML);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 }
