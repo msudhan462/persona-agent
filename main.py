@@ -25,6 +25,15 @@ def get_chat_history(persona_id, conversation_id, projection={"_id":0}):
     res = list(res)
     return res
 
+
+
+
+@app.route("/test-ollama")
+def hello_world():
+    from test_ollama import test_ollama
+    r = test_ollama()
+    return f"<p>{r}</p>"
+
 @app.route('/chat/<persona_id>/<conversation_id>')
 def chat(persona_id, conversation_id):
     context = {
@@ -34,9 +43,12 @@ def chat(persona_id, conversation_id):
     }
     return render_template('index.html', context=context)
 
+
+
+
 @app.route('/interact/<persona_id>/<conversation_id>', methods=['POST'])
 def interact(persona_id, conversation_id):
-
+    print("In interaction...........")
     body = request.get_json()
     prompt = body.get("prompt")
 
@@ -46,7 +58,7 @@ def interact(persona_id, conversation_id):
         "conversation_id":0
     }
     history = get_chat_history(persona_id, conversation_id, projection)
-
+    print(history)
     record = {
         "role": "user",
         "content": prompt,
@@ -54,6 +66,7 @@ def interact(persona_id, conversation_id):
         "conversation_id": conversation_id
     }
     r = mongo_db.insert(db="persona",collection="conversations", records=record)
+    print(r)
 
     embd = get_embeddings(prompt)[0].tolist()
     context = vector_db.search(embd)
@@ -71,7 +84,7 @@ def interact(persona_id, conversation_id):
         messages=messages
     )
     reply = response.choices[0].message.content
-
+    print(reply)
     # reply = get_inference(messages)
 
     record = {
