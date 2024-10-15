@@ -75,6 +75,7 @@ def interact(persona_id, conversation_id):
     for c in context["matches"]:
         text += c['metadata']['text'] + "\n\n"
     
+    print(text)
 
     system = {"role": "system", "content": "You are an AI Agent named Jarvis, responding on behalf of Sachin Tendulkar. You are responsible for tailoring responses to the user's specific questions. Begin by answering user queries based on your own persona. After addressing the question, rarely ask exactly one relevant follow-up question that aligns with the user's queries to keep the conversation engaging, but the follow-up question must never align with the user's persona. Ensure that the follow-up question is relevant to the user's question. Always maintain a polite, funny and respectful tone, and be precise when responding."}
     query = {"role": "user", "content": f"Please Answer the query based on My Persona and history\n# My Persona::{text}\n\nQuery::{prompt}\n\nAnswer::"}
@@ -101,4 +102,4 @@ def interact(persona_id, conversation_id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
