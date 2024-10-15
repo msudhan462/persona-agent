@@ -1,16 +1,31 @@
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM
 import torch
 from pinecone import Pinecone
-from uuid import uuid4
+# from uuid import uuid4
 from pathlib import Path
+# from huggingface_hub import login as hf_login
+
+# HUGGINGFACE LOGIN
+# hf_token = "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"
+# hf_login(hf_token)
 
 # Load the tokenizer and model from Hugging Face
 model_name = "BAAI/bge-large-en-v1.5"
-embd_model_path = Path(__file__).parent.absolute().joinpath(".cache")
-print(embd_model_path)
+models_dir = Path(__file__).parent.absolute().joinpath(".cache")
+print(models_dir)
 
-tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=embd_model_path)
-model = AutoModel.from_pretrained(model_name, cache_dir=embd_model_path)
+tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=models_dir)
+model = AutoModel.from_pretrained(model_name, cache_dir=models_dir)
+print("embedding model max length",tokenizer.model_max_length)
+
+
+
+# # Load tokenizer and model
+# text_gen_model_name = "google/gemma-2b-it"
+# text_tokenizer = AutoTokenizer.from_pretrained(text_gen_model_name, cache_dir=models_dir)
+# text_model = AutoModelForCausalLM.from_pretrained(text_gen_model_name, cache_dir=models_dir, torch_dtype=torch.bfloat16)
+# text_model_max_length = text_tokenizer.model_max_length
+# print("################## tex gen model loaded ####################")
 
 def get_embeddings(text):
     
@@ -70,6 +85,26 @@ vector_db = VectorDB()
 
 
 
+
+# def get_inference(messages):
+
+#     # Input text
+#     text = ""
+#     print(messages)
+#     for di in messages:
+#         text += f"Role: {di['role']}\nContent: {di['content']}\n\n"
+
+#     # Tokenize input
+#     inputs = text_tokenizer(text, return_tensors="pt")
+#     print("Input IDs --> ",len(inputs['input_ids'][0]))
+
+#     # Generate text
+#     outputs = text_model.generate(**inputs, max_length = text_model_max_length)
+
+#     # Decode and print the generated text
+#     generated_text = text_tokenizer.decode(outputs[0])
+    
+#     return generated_text
 
 # with open("sachin_tendulkar.txt") as f:
 #     t = f.read()
