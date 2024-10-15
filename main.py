@@ -16,13 +16,15 @@ client = OpenAI(
 def hello_world():
     return "<p>Hello, World!</p>"
 
-def get_chat_history(persona_id, conversation_id):
+def get_chat_history(persona_id, conversation_id, projection={"_id":0}):
     filters = {
         "persona_id": persona_id, 
         "conversation_id": conversation_id
     } 
-    res = mongo_db.find(db="persona",collection="conversations", filters=filters, many=True, projection={"_id":0})
-    return list(res)
+    res = mongo_db.find(db="persona",collection="conversations", filters=filters, many=True, projection=projection)
+    res = list(res)
+    print(res)
+    return res
 
 @app.route('/chat/<persona_id>/<conversation_id>')
 def chat(persona_id, conversation_id):
@@ -35,13 +37,16 @@ def chat(persona_id, conversation_id):
 
 @app.route('/interact/<persona_id>/<conversation_id>', methods=['POST'])
 def interact(persona_id, conversation_id):
-    print("Interacting............!!!!!!!!!!")
 
     body = request.get_json()
     prompt = body.get("prompt")
 
-    history = get_chat_history(persona_id, conversation_id)
-    print(history)
+    projection = {
+        "_id":0,
+        "persona_id":0,
+        "conversation_id":0
+    }
+    history = get_chat_history(persona_id, conversation_id, projection)
 
     record = {
         "role": "user",
@@ -72,7 +77,16 @@ def interact(persona_id, conversation_id):
         messages=messages
     )
     reply = response.choices[0].message.content
-    history = history + [{"role":"user","content":prompt},{"role":"assistant","content":reply}]
+
+    record = {
+        "role": "assistant",
+        "content": reply,
+        "persona_id": persona_id, 
+        "conversation_id": conversation_id
+    }
+    r = mongo_db.insert(db="persona",collection="conversations", records=record)
+    print(r)
+
     return {
         "message":response.choices[0].message.content
     }

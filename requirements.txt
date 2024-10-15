@@ -3,3 +3,4 @@ pymongo
 openai
 transformers
 torch
+pinecone

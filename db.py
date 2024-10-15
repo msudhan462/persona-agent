@@ -17,11 +17,8 @@ class MongoDB:
         
         try:
 
-            if isinstance(records, dict):
+            if isinstance(records, dict) and many ==  True:
                 records = [records]
-            
-            if not isinstance(records, list):
-                return ValueError("record(s) should list type")
             
             if not many:
                 return coll.insert_one(records)
