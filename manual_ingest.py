@@ -19,11 +19,19 @@ model = AutoModel.from_pretrained(model_name, cache_dir=models_dir)
 print("embedding model max length",tokenizer.model_max_length)
 
 
+# import os
+# os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
-# # Load tokenizer and model
+
+# # empty cache 
+# torch.cuda.empty_cache()
+# print("Empty the cache")
+
+# Load tokenizer and model
 # text_gen_model_name = "google/gemma-2b-it"
-# text_tokenizer = AutoTokenizer.from_pretrained(text_gen_model_name, cache_dir=models_dir)
-# text_model = AutoModelForCausalLM.from_pretrained(text_gen_model_name, cache_dir=models_dir, torch_dtype=torch.bfloat16)
+# text_tokenizer = AutoTokenizer.from_pretrained(text_gen_model_name, cache_dir=models_dir, device_map="auto")
+# # text_model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it",device_map={"": "cuda:0"},torch_dtype=torch.bfloat16,cache_dir=models_dir)
+# text_model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it",device_map="auto",torch_dtype=torch.bfloat16,cache_dir=models_dir)
 # text_model_max_length = text_tokenizer.model_max_length
 # print("################## tex gen model loaded ####################")
 
@@ -95,14 +103,22 @@ vector_db = VectorDB()
 #         text += f"Role: {di['role']}\nContent: {di['content']}\n\n"
 
 #     # Tokenize input
-#     inputs = text_tokenizer(text, return_tensors="pt")
-#     print("Input IDs --> ",len(inputs['input_ids'][0]))
+#     inputs = text_tokenizer(text, return_tensors="pt").to("cuda")
+#     print(inputs)
+
+#     inputs = inputs.to('cpu')
 
 #     # Generate text
-#     outputs = text_model.generate(**inputs, max_length = text_model_max_length)
+#     outputs = text_model.generate(
+#         **inputs, 
+#         max_length=text_model_max_length,
+#         return_full_text=False,
+#         eos_token_id=text_tokenizer.eos_token_id,
+#         pad_token_id=text_tokenizer.eos_token_id, 
+#     )
 
 #     # Decode and print the generated text
-#     generated_text = text_tokenizer.decode(outputs[0])
+#     generated_text = text_tokenizer.decode(outputs[0], skip_special_tokens=True)
     
 #     return generated_text
 

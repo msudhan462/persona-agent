@@ -2,14 +2,13 @@ from flask import Flask, render_template, request, stream_with_context, Response
 from openai import OpenAI
 from db import MongoDB
 from manual_ingest import *
+import time
+from groq import Groq
+client = Groq(api_key="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")
 
 app = Flask(__name__, template_folder="templates")
 mongo_db = MongoDB()
 
-client = OpenAI(
-    base_url = 'http://localhost:11434/v1',
-    api_key='ollama', # required, but unused
-)
 
 
 @app.route("/")
@@ -46,59 +45,60 @@ def chat(persona_id, conversation_id):
 
 
 
-@app.route('/interact/<persona_id>/<conversation_id>', methods=['POST'])
-def interact(persona_id, conversation_id):
-    print("In interaction...........")
-    body = request.get_json()
-    prompt = body.get("prompt")
+# @app.route('/interact/<persona_id>/<conversation_id>', methods=['POST'])
+# def interact(persona_id, conversation_id):
+#     print("In interaction...........")
+#     body = request.get_json()
+#     prompt = body.get("prompt")
 
-    projection = {
-        "_id":0,
-        "persona_id":0,
-        "conversation_id":0
-    }
-    history = get_chat_history(persona_id, conversation_id, projection)
-    print(history)
-    record = {
-        "role": "user",
-        "content": prompt,
-        "persona_id": persona_id, 
-        "conversation_id": conversation_id
-    }
-    r = mongo_db.insert(db="persona",collection="conversations", records=record)
-    print(r)
+#     projection = {
+#         "_id":0,
+#         "persona_id":0,
+#         "conversation_id":0
+#     }
+#     history = get_chat_history(persona_id, conversation_id, projection)
+#     print(history)
+#     record = {
+#         "role": "user",
+#         "content": prompt,
+#         "persona_id": persona_id, 
+#         "conversation_id": conversation_id
+#     }
+#     r = mongo_db.insert(db="persona",collection="conversations", records=record)
+#     print(r)
 
-    embd = get_embeddings(prompt)[0].tolist()
-    context = vector_db.search(embd)
+#     embd = get_embeddings(prompt)[0].tolist()
+#     context = vector_db.search(embd)
 
-    text = ""
-    for c in context["matches"]:
-        text += c['metadata']['text'] + "\n\n"
+#     text = ""
+#     for c in context["matches"]:
+#         text += c['metadata']['text'] + "\n\n"
     
-    print(text)
+#     print(text)
 
-    system = {"role": "system", "content": "You are an AI Agent named Jarvis, responding on behalf of Sachin Tendulkar. You are responsible for tailoring responses to the user's specific questions. Begin by answering user queries based on your own persona. After addressing the question, rarely ask exactly one relevant follow-up question that aligns with the user's queries to keep the conversation engaging, but the follow-up question must never align with the user's persona. Ensure that the follow-up question is relevant to the user's question. Always maintain a polite, funny and respectful tone, and be precise when responding."}
-    query = {"role": "user", "content": f"Please Answer the query based on My Persona and history\n# My Persona::{text}\n\nQuery::{prompt}\n\nAnswer::"}
-    messages = [system]+history+[query]
-    response = client.chat.completions.create(
-        model="gemma2:2b",
-        messages=messages
-    )
-    reply = response.choices[0].message.content
-    print(reply)
-    # reply = get_inference(messages)
+#     system = {"role": "system", "content": "You are an AI Agent named Jarvis, responding on behalf of Sachin Tendulkar. You are responsible for tailoring responses to the user's specific questions. Begin by answering user queries based on your own persona. After addressing the question, rarely ask exactly one relevant follow-up question that aligns with the user's queries to keep the conversation engaging, but the follow-up question must never align with the user's persona. Ensure that the follow-up question is relevant to the user's question. Always maintain a polite, funny and respectful tone, and be precise when responding."}
+#     query = {"role": "user", "content": f"Please Answer the query based on My Persona and history\n# My Persona::{text}\n\nQuery::{prompt}\n\nAnswer::"}
+#     messages = [system]+history+[query]
+#     response = client.chat.completions.create(
+#         model="gemma2:2b",
+#         messages=messages
+#     )
 
-    record = {
-        "role": "assistant",
-        "content": reply,
-        "persona_id": persona_id, 
-        "conversation_id": conversation_id
-    }
-    r = mongo_db.insert(db="persona",collection="conversations", records=record)
+#     for chunk in completion:
+#         print(chunk.choices[0].delta.content or "", end="")
 
-    return {
-        "message":reply
-    }
+
+#     record = {
+#         "role": "assistant",
+#         "content": reply,
+#         "persona_id": persona_id, 
+#         "conversation_id": conversation_id
+#     }
+#     r = mongo_db.insert(db="persona",collection="conversations", records=record)
+
+#     return {
+#         "message":reply
+#     }
 
 
 
@@ -140,16 +140,21 @@ def stream(persona_id, conversation_id):
 
     def stream_response():
         
-        response = client.chat.completions.create(
-            model="gemma2:2b",
+        completion = client.chat.completions.create(
+            model="gemma2-9b-it",
             messages=messages,
+            temperature=1,
+            max_tokens=8192,
+            top_p=1,
             stream=True
         )
-        
-        for sse_chunk in response:
-            content = sse_chunk.choices[0].delta.content # some other stuff
-            print(content)
-            yield content
+
+        for chunk in completion:
+            ch = str(chunk.choices[0].delta.content)
+            time.sleep(0.1)
+            if ch =="None":
+                ch = ""
+            yield ch
     
     return Response(stream_with_context(stream_response()), content_type='text/event-stream')
 
