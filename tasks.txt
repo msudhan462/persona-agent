@@ -8,8 +8,10 @@ create entire RAG flow and store previous chat
     
 Phase-1
 =======
-user based login and logout - google authentication
-create short url to keep in thier personal profiles
+Fix the issues in POC - Done
+user based login and logout - google authentication - Done
+create short url to keep in thier personal profiles - Done
+Save User data in mongo - In Progress
 ingest the data
     Q & A - mandatory questions / non mandatory questions
     Upload files about person - pdf, docs, txt
