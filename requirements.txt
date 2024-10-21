@@ -6,3 +6,4 @@ transformers
 torch
 pinecone
 groq
+boto3

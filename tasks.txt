@@ -1,5 +1,5 @@
 
-POC - done
+POC - Done
 ===
 store three or more personalities in pinecone
     create pinecone server
@@ -9,18 +9,20 @@ create entire RAG flow and store previous chat
 Phase-1
 =======
 Fix the issues in POC - Done
-user based login and logout - google authentication - Done
 create short url to keep in thier personal profiles - Done
 Save User data in mongo - In Progress
-ingest the data
+ingest the data - only post api's completed
+    Constant Updating mood of person
     Q & A - mandatory questions / non mandatory questions
     Upload files about person - pdf, docs, txt
-    Web URLs to extract - scraping
-    Blogs - wikipedia
 Create / update profile -  pic / bio / name
 User following and unfollwing - counts
+write suggestion(connection, chat) - apis
+write chat user and agent options(edit, reactions, reply, audio,..etc) - apis
+Agents chat can review by other user - (chats, interactions)
+save user id and time in every record
+create proper user authentication and for apis
 User posting about question which other users are not satisfied or agent is not able to answer
-Agents chat can review by other user
 
 
 Phase-2

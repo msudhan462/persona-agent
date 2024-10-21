@@ -23,7 +23,7 @@ class MongoDB:
             if not many:
                 return coll.insert_one(records)
             else:
-                return coll.insert(records)
+                return coll.insert_many(records)
         except Exception as e:
             print(traceback.format_exc())
             return ValueError(e)

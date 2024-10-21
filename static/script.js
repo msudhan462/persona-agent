@@ -35,8 +35,8 @@ const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p");
     var persona_id = $('#chat-input').attr('persona_id');
     var conv_id = $('#chat-input').attr('conversation_id');
-    const API_URL = `http://35.169.165.29/stream/${persona_id}/${conv_id}`;
-    // const API_URL = `http://127.0.0.1:5000/stream/${persona_id}/${conv_id}`;
+    // const API_URL = `http://35.169.165.29/stream/${persona_id}/${conv_id}`;
+    const API_URL = `http://127.0.0.1:5000/stream/${persona_id}/${conv_id}`;
 
     // Define the properties and data for the API request
     const requestOptions = {
@@ -144,7 +144,8 @@ const handleOutgoingChat = () => {
                         <img src="/static/img/programmer.png">
                         <p>${userText}</p>
                     </div>
-                </div>`;
+                </div>
+                `;
 
     // Create an outgoing chat div with user's message and append it to chat container
     const outgoingChatDiv = createChatElement(html, "outgoing");

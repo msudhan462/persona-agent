@@ -1,17 +1,10 @@
-from flask import render_template, request, stream_with_context, Response, redirect
-from db import MongoDB
+from flask import (
+        render_template, request, redirect
+    )
 from manual_ingest import *
-import time
-from groq import Groq
 from uuid import uuid4
 from . import views_bp
 from .common import login_required
-
-mongo_db = MongoDB()
-
-client = Groq(api_key="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")
-
-
 
 
 @views_bp.route("/health-check")
@@ -20,104 +13,95 @@ def health_check():
 
 
 @views_bp.route("/")
-@login_required
+def landing_page():
+    return render_template('landing_page.html')
+
+
+@views_bp.route("/roadmap")
+def roadmap():
+    return render_template('roadmap.html')
+
+@views_bp.route("/product")
+def product():
+    return render_template('product.html')
+
+@views_bp.route("/team")
+def team():
+    return render_template('team.html')
+
+@views_bp.route("/about")
+def about():
+    return render_template('about.html')
+
+
+@views_bp.route("/careers")
+def careers():
+    return render_template('careers.html')
+
+
+
+@views_bp.route("/terms-conditions")
+def terms_and_conditions():
+    return render_template('terms_and_conditions.html')
+
+
+@views_bp.route("/help")
+def help():
+    return render_template('help.html')
+
+
+@views_bp.route("/policies")
+def policiess():
+    return render_template('policies.html')
+
+
+@views_bp.route("/page-report")
+def page_report():
+    return "<p>Hello, World!</p>"
+
+
+@views_bp.route("/subscribe")
+def subscribe():
+    return "<p>Hello, World!</p>"
+
+@views_bp.route("/home")
 def hello_world():
     return "<p>Hello, World!</p>"
 
-def get_chat_history(persona_id, conversation_id, projection={"_id":0}):
-    filters = {
-        "persona_id": persona_id, 
-        "conversation_id": conversation_id
-    } 
-    res = mongo_db.find(db="persona",collection="conversations", filters=filters, many=True, projection=projection)
-    res = list(res)
-    return res
+@views_bp.route("/recommendation/to-connect")
+def remmended_to_connect():
+    return "<p>Hello, World!</p>"
 
 
-@views_bp.route('/chat/<persona_id>')
-@login_required
-def redirect_to_conversation(persona_id):
-
-    conv_id = str(uuid4())
-    print(conv_id)
-    HOST_PORT = "127.0.0.1:5000"
-    return redirect(f"http://{HOST_PORT}/chat/{persona_id}/{conv_id}", code=302)
-
-@views_bp.route('/chat/<persona_id>/<conversation_id>')
-@login_required
-def chat(persona_id, conversation_id):
-    context = {
-        "persona_id" : persona_id,
-        "conversation_id" : conversation_id,
-        "history" : get_chat_history(persona_id, conversation_id)
-    }
-    return render_template('index.html', context=context)
+@views_bp.route("/recommendation/to-chat")
+def remmended_to_chat():
+    return "<p>Hello, World!</p>"
 
 
+@views_bp.route("/posts/list")
+def list_posts():
+    # pagination
+    return "<p>Hello, World!</p>"
 
-@views_bp.route('/stream/<persona_id>/<conversation_id>', methods=['POST'])
-@login_required
-def stream(persona_id, conversation_id):
-    print("In interaction...........")
-    body = request.get_json()
-    prompt = body.get("prompt")
 
-    projection = {
-        "_id":0,
-        "persona_id":0,
-        "conversation_id":0
-    }
-    history = get_chat_history(persona_id, conversation_id, projection)
-    print(history)
-    record = {
-        "role": "user",
-        "content": prompt,
-        "persona_id": persona_id, 
-        "conversation_id": conversation_id
-    }
-    r = mongo_db.insert(db="persona",collection="conversations", records=record)
-    print(r)
+@views_bp.route("/posts/comments/list")
+def post_comments():
+    # pagination
+    return "<p>Hello, World!</p>"
 
-    embd = get_embeddings(prompt)[0].tolist()
-    context = vector_db.search(embd)
+@views_bp.route("/posts/reaction")
+def post_reaction():
+    return "<p>Hello, World!</p>"
 
-    text = ""
-    for c in context["matches"]:
-        text += c['metadata']['text'] + "\n\n"
-    
-    print(text)
+@views_bp.route("/search")
+def search():
+    return "<p>Hello, World!</p>"
 
-    system = {"role": "system", "content": "You are an AI Agent named Jarvis, responding on behalf of Sachin Tendulkar. You are responsible for tailoring responses to the user's specific questions. Begin by answering user queries based on your own persona. After addressing the question, rarely ask exactly one relevant follow-up question that aligns with the user's queries to keep the conversation engaging, but the follow-up question must never align with the user's persona. Ensure that the follow-up question is relevant to the user's question. Always maintain a polite, funny and respectful tone, and be precise when responding."}
-    query = {"role": "user", "content": f"Please Answer the query based on My Persona and history\n# My Persona::{text}\n\nQuery::{prompt}\n\nAnswer::"}
-    messages = [system]+history+[query]
-    
+@views_bp.route("/agent/current-feeling")
+def current_feeling():
+    return "<p>Hello, World!</p>"
 
-    def stream_response():
-        
-        completion = client.chat.completions.create(
-            model="gemma2-9b-it",
-            messages=messages,
-            temperature=1,
-            max_tokens=8192,
-            top_p=1,
-            stream=True
-        )
-        
-        total_response = ""
-        for chunk in completion:
-            ch = str(chunk.choices[0].delta.content)
-            time.sleep(0.1)
-            if ch =="None":
-                ch = ""
-            yield ch
-        
-        record = {
-            "role": "assistant",
-            "content": total_response,
-            "persona_id": persona_id, 
-            "conversation_id": conversation_id
-        }
-        r = mongo_db.insert(db="persona",collection="conversations", records=record)
-        print(r)
+@views_bp.route("/agent/todays-plans")
+def todays_plans():
+    return "<p>Hello, World!</p>"
 
-    return Response(stream_with_context(stream_response()), content_type='text/event-stream')
