@@ -10,23 +10,29 @@
             line-height: 1.6;
             margin: 20px;
             color: #333;
+            background-color: #f9f9f9; /* Added a subtle background color */
         }
         h1, h2 {
             color: #0056b3;
+            margin-top: 20px;
         }
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         h2 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .feature {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #fff; /* White background for features */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Soft shadow effect */
         }
         .feature h3 {
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         ul {
             list-style-type: none;
@@ -35,115 +41,142 @@
         li {
             background: #f9f9f9;
             margin: 10px 0;
-            padding: 10px;
+            padding: 15px;
             border-left: 4px solid #0056b3;
+            transition: background-color 0.3s ease; /* Added transition for hover effect */
+        }
+        li:hover {
+            background: #e0f7fa; /* Light blue background on hover */
         }
         p {
             margin: 10px 0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.8rem; /* Adjusted for smaller screens */
+            }
+            h2 {
+                font-size: 1.4rem; /* Adjusted for smaller screens */
+            }
+            .feature {
+                margin-bottom: 20px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Our Product: Your Personalized Virtual Persona Agent</h1>
+    <header>
+        <h1>Our Product: Your Personalized Virtual Persona Agent</h1>
+    </header>
 
-    <section>
-        <h2>What is the Virtual Persona Agent?</h2>
-        <p>
-            Our virtual persona agents are intelligent digital companions designed to represent, support, and extend you in both personal and professional environments. These AI-powered agents are built to understand your unique needs, preferences, and habits, providing personalized assistance across a wide range of tasks—from managing daily routines to offering insights based on your behavior.
-        </p>
-        <p>
-            Imagine having a digital version of yourself that works tirelessly behind the scenes to simplify your life, whether it's scheduling meetings, organizing tasks, or enhancing communications. Our agents are designed to grow with you, continuously learning and adapting to provide an ever more personalized experience.
-        </p>
-    </section>
-
-    <section>
-        <h2>Key Features</h2>
-
-        <div class="feature">
-            <h3>Personalization and Learning</h3>
+    <main>
+        <section>
+            <h2>What is the Virtual Persona Agent?</h2>
             <p>
-                At the heart of every virtual persona agent is its ability to learn from you. The more you interact with your agent, the more it understands your preferences, behaviors, and needs. This deep personalization allows your agent to provide tailored assistance, anticipate your needs, and adapt to changes in your life, ensuring an always-relevant experience.
+                Our virtual persona agents are intelligent digital companions designed to represent, support, and extend you in both personal and professional environments. These AI-powered agents are built to understand your unique needs, preferences, and habits, providing personalized assistance across a wide range of tasks—from managing daily routines to offering insights based on your behavior.
             </p>
-        </div>
-
-        <div class="feature">
-            <h3>Task Automation</h3>
             <p>
-                Delegate routine tasks to your virtual agent and focus on what truly matters. Whether it’s managing your schedule, sending reminders, handling emails, or keeping track of to-do lists, your agent handles it all with efficiency and precision. This automation frees up your time, allowing you to be more productive and less burdened by administrative tasks.
+                Imagine having a digital version of yourself that works tirelessly behind the scenes to simplify your life, whether it's scheduling meetings, organizing tasks, or enhancing communications. Our agents are designed to grow with you, continuously learning and adapting to provide an ever more personalized experience.
             </p>
-        </div>
+        </section>
 
-        <div class="feature">
-            <h3>Contextual Intelligence</h3>
+        <section>
+            <h2>Key Features</h2>
+
+            <div class="feature">
+                <h3>Personalization and Learning</h3>
+                <p>
+                    At the heart of every virtual persona agent is its ability to learn from you. The more you interact with your agent, the more it understands your preferences, behaviors, and needs. This deep personalization allows your agent to provide tailored assistance, anticipate your needs, and adapt to changes in your life, ensuring an always-relevant experience.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Task Automation</h3>
+                <p>
+                    Delegate routine tasks to your virtual agent and focus on what truly matters. Whether it’s managing your schedule, sending reminders, handling emails, or keeping track of to-do lists, your agent handles it all with efficiency and precision. This automation frees up your time, allowing you to be more productive and less burdened by administrative tasks.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Contextual Intelligence</h3>
+                <p>
+                    With contextual intelligence, your virtual agent doesn’t just follow commands—it understands your environment, habits, and priorities. It provides intelligent suggestions, from recommending the best time to schedule a meeting to filtering important messages and even helping you prepare for an event with relevant insights.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Seamless Communication Assistance</h3>
+                <p>
+                    Stay on top of your communications effortlessly. Whether it’s helping you manage social media, responding to emails based on your past conversations, or even assisting with presentations, your agent is always there to support you. Its smart filtering system ensures that only the most important communications reach you when needed.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Smart Scheduling and Reminders</h3>
+                <p>
+                    Your virtual agent acts as your personal scheduling assistant, organizing your day-to-day tasks and ensuring you never miss an important deadline. It learns your routine, optimizes your schedule, and sends reminders at the right time, helping you stay on track with your personal and professional commitments.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Emotional Intelligence</h3>
+                <p>
+                    Beyond practical tasks, your virtual persona agent is equipped with emotional intelligence to better support your well-being. It can provide wellness insights, suggest stress management techniques, or offer a helping hand when you need to focus on self-care, making it a well-rounded companion that cares for both your productivity and your emotional health.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why Choose Our Virtual Persona Agent?</h2>
+            <ul>
+                <li>
+                    <strong>Comprehensive Assistance:</strong> Our agents are designed to assist with every aspect of your life, from managing tasks to enhancing communications, providing an all-in-one solution for your personal and professional needs.
+                </li>
+                <li>
+                    <strong>Adaptive Learning:</strong> The agent grows with you, continuously learning and improving its assistance based on your habits, making sure its service evolves to suit your ever-changing life.
+                </li>
+                <li>
+                    <strong>User-Friendly Design:</strong> The sleek, intuitive interface designed by Sai Krishna ensures that even the most complex features are easy to use, allowing you to engage with your virtual agent effortlessly.
+                </li>
+                <li>
+                    <strong>Privacy and Security:</strong> We take your privacy seriously. Your data is handled with the utmost care, and we ensure that every interaction with your agent is secure and private.
+                </li>
+                <li>
+                    <strong>Future-Proof Technology:</strong> Built by our expert AI engineer, Madhusudhan Reddy, our agents are at the cutting edge of artificial intelligence, making sure you stay ahead in a world that’s constantly evolving.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>How It Works</h2>
             <p>
-                With contextual intelligence, your virtual agent doesn’t just follow commands—it understands your environment, habits, and priorities. It provides intelligent suggestions, from recommending the best time to schedule a meeting to filtering important messages and even helping you prepare for an event with relevant insights.
+                Getting started with your virtual persona agent is simple. Once you sign up, you will be guided through a seamless onboarding process where your agent begins learning about your preferences, habits, and routines. As you interact with it, the agent will continually refine its assistance, becoming a more valuable companion over time. Whether you prefer interacting through text, voice, or gestures, your agent is designed to be versatile and adaptable to your communication style.
             </p>
-        </div>
+        </section>
 
-        <div class="feature">
-            <h3>Seamless Communication Assistance</h3>
+        <section>
+            <h2>The Future of Digital Companions</h2>
             <p>
-                Stay on top of your communications effortlessly. Whether it’s helping you manage social media, responding to emails based on your past conversations, or even assisting with presentations, your agent is always there to support you. Its smart filtering system ensures that only the most important communications reach you when needed.
+                We believe that virtual persona agents are just the beginning. As we continue to innovate, the possibilities are endless. Our product roadmap includes features that will integrate your agent even deeper into your daily life, offering proactive suggestions, emotional support, and much more. The future is one where technology serves to enhance your human experience, and we are excited to be at the forefront of this revolution.
             </p>
-        </div>
+        </section>
 
-        <div class="feature">
-            <h3>Smart Scheduling and Reminders</h3>
+        <section>
+            <h2>Get Started Today</h2>
             <p>
-                Your virtual agent acts as your personal scheduling assistant, organizing your day-to-day tasks and ensuring you never miss an important deadline. It learns your routine, optimizes your schedule, and sends reminders at the right time, helping you stay on track with your personal and professional commitments.
+                Experience the power of your own virtual persona agent. Join us on this journey to a more connected, productive, and personalized future. With our AI-powered digital companions, you’ll be able to achieve more, stress less, and live a more balanced life. Sign up now and take the first step toward having your own personalized virtual agent.
             </p>
-        </div>
+        </section>
+    </main>
 
-        <div class="feature">
-            <h3>Emotional Intelligence</h3>
-            <p>
-                Beyond practical tasks, your virtual persona agent is equipped with emotional intelligence to better support your well-being. It can provide wellness insights, suggest stress management techniques, or offer a helping hand when you need to focus on self-care, making it a well-rounded companion that cares for both your productivity and your emotional health.
-            </p>
-        </div>
-    </section>
+    <footer>
+        <p style="text-align: center; margin-top: 20px;">&copy; 2024 Company Name. All rights reserved.</p>
+    </footer>
 
-    <section>
-        <h2>Why Choose Our Virtual Persona Agent?</h2>
-        <ul>
-            <li>
-                <strong>Comprehensive Assistance:</strong> Our agents are designed to assist with every aspect of your life, from managing tasks to enhancing communications, providing an all-in-one solution for your personal and professional needs.
-            </li>
-            <li>
-                <strong>Adaptive Learning:</strong> The agent grows with you, continuously learning and improving its assistance based on your habits, making sure its service evolves to suit your ever-changing life.
-            </li>
-            <li>
-                <strong>User-Friendly Design:</strong> The sleek, intuitive interface designed by Sai Krishna ensures that even the most complex features are easy to use, allowing you to engage with your virtual agent effortlessly.
-            </li>
-            <li>
-                <strong>Privacy and Security:</strong> We take your privacy seriously. Your data is handled with the utmost care, and we ensure that every interaction with your agent is secure and private.
-            </li>
-            <li>
-                <strong>Future-Proof Technology:</strong> Built by our expert AI engineer, Madhusudhan Reddy, our agents are at the cutting edge of artificial intelligence, making sure you stay ahead in a world that’s constantly evolving.
-            </li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>How It Works</h2>
-        <p>
-            Getting started with your virtual persona agent is simple. Once you sign up, you will be guided through a seamless onboarding process where your agent begins learning about your preferences, habits, and routines. As you interact with it, the agent will continually refine its assistance, becoming a more valuable companion over time. Whether you prefer interacting through text, voice, or gestures, your agent is designed to be versatile and adaptable to your communication style.
-        </p>
-    </section>
-
-    <section>
-        <h2>The Future of Digital Companions</h2>
-        <p>
-            We believe that virtual persona agents are just the beginning. As we continue to innovate, the possibilities are endless. Our product roadmap includes features that will integrate your agent even deeper into your daily life, offering proactive suggestions, emotional support, and much more. The future is one where technology serves to enhance your human experience, and we are excited to be at the forefront of this revolution.
-        </p>
-    </section>
-
-    <section>
-        <h2>Get Started Today</h2>
-        <p>
-            Experience the power of your own virtual persona agent. Join us on this journey to a more connected, productive, and personalized future. With our AI-powered digital companions, you’ll be able to achieve more, stress less, and live a more balanced life. Sign up now and take the first step toward having your own personalized virtual agent.
-        </p>
-    </section>
-
-</body>
-</html>

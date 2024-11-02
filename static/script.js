@@ -1,8 +1,8 @@
 const chatInput = document.querySelector("#chat-input");
 const sendButton = document.querySelector("#send-btn");
 const chatContainer = document.querySelector(".chat-container");
-const themeButton = document.querySelector("#theme-btn");
-const deleteButton = document.querySelector("#delete-btn");
+// const themeButton = document.querySelector("#theme-btn");
+// const deleteButton = document.querySelector("#delete-btn");
 
 let userText = null;
 const API_KEY = "PASTE-YOUR-API-KEY-HERE"; // Paste your API key here
@@ -12,7 +12,7 @@ const loadDataFromLocalstorage = () => {
     const themeColor = localStorage.getItem("themeColor");
 
     document.body.classList.toggle("light-mode", themeColor === "light_mode");
-    themeButton.innerText = document.body.classList.contains("light-mode") ? "dark_mode" : "light_mode";
+    // themeButton.innerText = document.body.classList.contains("light-mode") ? "dark_mode" : "light_mode";
 
     const defaultText = `<div class="default-text">
                             <h1>ChatGPT Clone</h1>
@@ -36,22 +36,19 @@ const getChatResponse = async (incomingChatDiv) => {
     var persona_id = $('#chat-input').attr('persona_id');
     var conv_id = $('#chat-input').attr('conversation_id');
     // const API_URL = `http://35.169.165.29/stream/${persona_id}/${conv_id}`;
-    const API_URL = `http://127.0.0.1:5000/stream/${persona_id}/${conv_id}`;
+    const API_URL = `http://127.0.0.1:8000/api/v1/chat/stream`;
 
     // Define the properties and data for the API request
     const requestOptions = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
+            "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1zcmVkZHkuZ29uZUBnbWFpbC5jb20iLCJleHAiOjE3MzA1NzM3MzV9.n3qcVvqIfOAbw4bYZM_JuzLIfmBOfQfJLkBZ9nbouDM`
         },
         body: JSON.stringify({
-            model: "text-davinci-003",
-            prompt: userText,
-            max_tokens: 2048,
-            temperature: 0.2,
-            n: 1,
-            stop: null
+            "persona_id":persona_id,
+            "conversation_id":conv_id,
+            "prompt": userText,
         })
     }
     console.log(requestOptions)
@@ -155,20 +152,20 @@ const handleOutgoingChat = () => {
     setTimeout(showTypingAnimation, 500);
 }
 
-deleteButton.addEventListener("click", () => {
-    // Remove the chats from local storage and call loadDataFromLocalstorage function
-    if(confirm("Are you sure you want to delete all the chats?")) {
-        localStorage.removeItem("all-chats");
-        // loadDataFromLocalstorage();
-    }
-});
+// deleteButton.addEventListener("click", () => {
+//     // Remove the chats from local storage and call loadDataFromLocalstorage function
+//     if(confirm("Are you sure you want to delete all the chats?")) {
+//         localStorage.removeItem("all-chats");
+//         // loadDataFromLocalstorage();
+//     }
+// });
 
-themeButton.addEventListener("click", () => {
-    // Toggle body's class for the theme mode and save the updated theme to the local storage 
-    document.body.classList.toggle("light-mode");
-    localStorage.setItem("themeColor", themeButton.innerText);
-    themeButton.innerText = document.body.classList.contains("light-mode") ? "dark_mode" : "light_mode";
-});
+// themeButton.addEventListener("click", () => {
+//     // Toggle body's class for the theme mode and save the updated theme to the local storage 
+//     document.body.classList.toggle("light-mode");
+//     localStorage.setItem("themeColor", themeButton.innerText);
+//     themeButton.innerText = document.body.classList.contains("light-mode") ? "dark_mode" : "light_mode";
+// });
 
 const initialInputHeight = chatInput.scrollHeight;
 

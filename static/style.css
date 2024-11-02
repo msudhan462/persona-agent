@@ -256,3 +256,9 @@ span.material-symbols-rounded {
     font-size: 1.25rem!important;
   }
 }
+.chat-actions {
+  display: flex;
+  gap: 5px; /* Space between icons */
+  margin-top: 5px; /* Space above icons */
+  align-items: center; /* Center icons vertically */
+}

@@ -1,10 +1,50 @@
-from flask import (
-        render_template, request, redirect
-    )
-from manual_ingest import *
+from flask import redirect, render_template
 from uuid import uuid4
+from db import MongoDB
+from manual_ingest import *
 from . import views_bp
-from .common import login_required
+
+mongo_db = MongoDB()
+
+
+def get_chat_history(persona_id, conversation_id, projection={"_id":0}):
+    filters = {
+        "persona_id": persona_id, 
+        "conversation_id": conversation_id
+    } 
+    res = mongo_db.find(db="persona",collection="conversations", filters=filters, many=True, projection=projection)
+    res = list(res)
+    return res
+
+
+@views_bp.route('/chat/<persona_id>')
+#@login_required
+def redirect_to_conversation(persona_id):
+
+    conv_id = str(uuid4())
+    HOST_PORT = "127.0.0.1:5000"
+    return redirect(f"http://{HOST_PORT}/chat/{persona_id}/{conv_id}", code=302)
+
+@views_bp.route('/chat/<persona_id>/<conversation_id>')
+#@login_required
+def chat(persona_id, conversation_id):
+    context = {
+        "persona_id" : persona_id,
+        "conversation_id" : conversation_id,
+        "history" : get_chat_history(persona_id, conversation_id)
+    }
+    return render_template('index_original.html', context=context)
+
+
+
+@views_bp.route('/chat')
+#@login_required
+def list_personas():
+
+    from .peronas import profiles
+
+    context = {"personas":profiles}
+    return render_template('list_personas.html', context=context)
 
 
 @views_bp.route("/health-check")
@@ -55,53 +95,8 @@ def policiess():
     return render_template('policies.html')
 
 
-@views_bp.route("/page-report")
-def page_report():
-    return "<p>Hello, World!</p>"
-
-
-@views_bp.route("/subscribe")
-def subscribe():
-    return "<p>Hello, World!</p>"
-
 @views_bp.route("/home")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def home():
+    return render_template('home.html')
 
-@views_bp.route("/recommendation/to-connect")
-def remmended_to_connect():
-    return "<p>Hello, World!</p>"
-
-
-@views_bp.route("/recommendation/to-chat")
-def remmended_to_chat():
-    return "<p>Hello, World!</p>"
-
-
-@views_bp.route("/posts/list")
-def list_posts():
-    # pagination
-    return "<p>Hello, World!</p>"
-
-
-@views_bp.route("/posts/comments/list")
-def post_comments():
-    # pagination
-    return "<p>Hello, World!</p>"
-
-@views_bp.route("/posts/reaction")
-def post_reaction():
-    return "<p>Hello, World!</p>"
-
-@views_bp.route("/search")
-def search():
-    return "<p>Hello, World!</p>"
-
-@views_bp.route("/agent/current-feeling")
-def current_feeling():
-    return "<p>Hello, World!</p>"
-
-@views_bp.route("/agent/todays-plans")
-def todays_plans():
-    return "<p>Hello, World!</p>"
 
