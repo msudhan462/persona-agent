@@ -18,7 +18,6 @@ def get_chat_history(persona_id, conversation_id, projection={"_id":0}):
 
 
 @views_bp.route('/chat/<persona_id>')
-#@login_required
 def redirect_to_conversation(persona_id):
 
     conv_id = str(uuid4())
@@ -26,7 +25,6 @@ def redirect_to_conversation(persona_id):
     return redirect(f"http://{HOST_PORT}/chat/{persona_id}/{conv_id}", code=302)
 
 @views_bp.route('/chat/<persona_id>/<conversation_id>')
-#@login_required
 def chat(persona_id, conversation_id):
     context = {
         "persona_id" : persona_id,
@@ -38,7 +36,6 @@ def chat(persona_id, conversation_id):
 
 
 @views_bp.route('/chat')
-#@login_required
 def list_personas():
 
     from .peronas import profiles
@@ -56,6 +53,18 @@ def health_check():
 def landing_page():
     return render_template('landing_page.html')
 
+@views_bp.route("/signup")
+def signup():
+    return render_template('signup.html')
+
+
+@views_bp.route("/logout")
+def logout():
+    return render_template('logout.html')
+
+@views_bp.route("/login")
+def login():
+    return render_template('login.html')
 
 @views_bp.route("/roadmap")
 def roadmap():

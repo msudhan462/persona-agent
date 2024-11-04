@@ -31,6 +31,17 @@ const createChatElement = (content, className) => {
     return chatDiv; // Return the created chat div
 }
 
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
 const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p");
     var persona_id = $('#chat-input').attr('persona_id');
@@ -38,12 +49,13 @@ const getChatResponse = async (incomingChatDiv) => {
     // const API_URL = `http://35.169.165.29/stream/${persona_id}/${conv_id}`;
     const API_URL = `http://127.0.0.1:8000/api/v1/chat/stream`;
 
-    // Define the properties and data for the API request
+    token = getCookie("token")
+
     const requestOptions = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1zcmVkZHkuZ29uZUBnbWFpbC5jb20iLCJleHAiOjE3MzA1NzM3MzV9.n3qcVvqIfOAbw4bYZM_JuzLIfmBOfQfJLkBZ9nbouDM`
+            "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
             "persona_id":persona_id,
@@ -99,6 +111,10 @@ const getChatResponse = async (incomingChatDiv) => {
     localStorage.setItem("all-chats", chatContainer.innerHTML);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 }
+
+if (getCookie("token") == null){
+    window.location = "/";
+  }
 
 const copyResponse = (copyBtn) => {
     // Copy the text content of the response to the clipboard
