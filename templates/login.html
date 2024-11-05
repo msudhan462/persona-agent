@@ -146,7 +146,8 @@
       })
       .then(data => {
         // Assuming data.token is the expected structure
-        window.location = "/login";
+        setCookie("token", data.access_token, 1);
+        window.location = "/";
       })
       .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
