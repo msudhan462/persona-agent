@@ -47,7 +47,8 @@ const getChatResponse = async (incomingChatDiv) => {
     var persona_id = $('#chat-input').attr('persona_id');
     var conv_id = $('#chat-input').attr('conversation_id');
     // const API_URL = `http://35.169.165.29/stream/${persona_id}/${conv_id}`;
-    const API_URL = `http://127.0.0.1:8000/api/v1/chat/stream`;
+    // const API_URL = `http://127.0.0.1:8000/api/v1/chat/stream`;
+    const API_URL = `http://35.169.165.29/api/v1/chat/stream`;
 
     token = getCookie("token")
 
