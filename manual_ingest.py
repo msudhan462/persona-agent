@@ -10,13 +10,13 @@ from pathlib import Path
 # hf_login(hf_token)
 
 # Load the tokenizer and model from Hugging Face
-model_name = "BAAI/bge-large-en-v1.5"
-models_dir = Path(__file__).parent.absolute().joinpath(".cache")
-print(models_dir)
+# model_name = "BAAI/bge-large-en-v1.5"
+# models_dir = Path(__file__).parent.absolute().joinpath(".cache")
+# print(models_dir)
 
-tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=models_dir)
-model = AutoModel.from_pretrained(model_name, cache_dir=models_dir)
-print("embedding model max length",tokenizer.model_max_length)
+# tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=models_dir)
+# model = AutoModel.from_pretrained(model_name, cache_dir=models_dir)
+# print("embedding model max length",tokenizer.model_max_length)
 
 
 # import os
