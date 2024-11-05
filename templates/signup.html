@@ -121,4 +121,72 @@
       </div>
     </div>
   </body>
+  
+  <script>
+
+
+    const form = document.getElementById("api-form");
+  
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+  
+      const psd = document.getElementById("signup-password").value;
+      const email = document.getElementById("signup-email").value;
+      const name = document.getElementById('signup-name').value;
+      const apiUrl = 'http://35.169.165.29/api/auth/signup/';
+  
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Specify content type
+        },
+        body: JSON.stringify({
+          email: email,
+          password: psd,
+          name: name
+        })
+      };
+  
+      fetch(apiUrl, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then(data => {
+          // Assuming data.token is the expected structure
+          setCookie("token", data.access_token, 1);
+          window.location = "/";
+        })
+        .catch(error => {
+          console.error('There was a problem with your fetch operation:', error);
+        });
+    });
+  
+  
+  
+      function setCookie(name,value,days) {
+          var expires = "";
+          if (days) {
+              var date = new Date();
+              date.setTime(date.getTime() + (days*24*60*60*1000));
+              expires = "; expires=" + date.toUTCString();
+          }
+          document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+      }
+      function getCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1,c.length);
+              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+      }
+      if (getCookie("token") != null){
+        window.location = "/";
+      }
+    </script>
 </html>
