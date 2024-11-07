@@ -80,8 +80,8 @@
             align-items: center;
             flex-direction: column;
             background: url('static/img/persona-agent.jpeg') no-repeat center center/cover;
-            height: 400px;
-            color: white; /* Adjusted for visibility on the hero background */
+            height: 600px;
+            color: white;
         }
         .hero h2 {
             font-size: 2.5rem;
@@ -103,7 +103,7 @@
             padding: 20px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border: 1px solid black; /* Added border for better definition */
+            border: 1px solid black;
         }
         .feature-box img {
             max-width: 100%;
@@ -113,10 +113,26 @@
         }
         .feature-box h3 {
             margin-bottom: 10px;
-            color: black; /* Ensured header color */
+            color: black;
         }
         .feature-box p {
             font-size: 1rem;
+        }
+        .intro, .vision, .product-description {
+            text-align: center;
+            margin: 50px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid black;
+        }
+        .intro h2, .vision h2, .product-description h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .intro p, .vision p, .product-description p {
+            font-size: 1.1rem;
+            color: #333;
         }
         footer {
             background: white;
@@ -124,7 +140,7 @@
             text-align: center;
             padding: 10px 0;
             margin-top: 50px;
-            border-top: 2px solid black; /* Added border for separation */
+            border-top: 2px solid black;
         }
         footer p {
             font-size: 0.9rem;
@@ -157,7 +173,7 @@
         <div class="nav">
             <a href="/chat">Chat</a>
             <a href="/product">Product</a>
-            <a  href="/logout">Logout</a>
+            <a href="/logout">Logout</a>
         </div>
     </header>
 
@@ -171,6 +187,18 @@
     <div class="container">
         <div class="slogan">
             "Where Technology Meets Personalization"
+        </div>
+
+        <!-- Company Introduction -->
+        <div class="intro">
+            <h2>Welcome to Twin AI / Clone AI</h2>
+            <p>Clone human personas into AI agents and robots.</p>
+        </div>
+
+        <!-- Product Description -->
+        <div class="product-description">
+            <h2>Our Product</h2>
+            <p>Our platform offers personalized AI agents for individuals and organizations, enabling immersive, natural interactions through digital personas. These agents serve as digital representatives, assisting with tailored communication and personalized services. Future versions will integrate these AI personas with robots for lifelike, human-like interactions.</p>
         </div>
 
         <!-- Features Section -->
@@ -196,21 +224,20 @@
                 <p>Your data is secure with us. We implement advanced security measures to protect your personal information.</p>
             </div>
         </div>
+
+        <!-- Future Vision -->
+        <div class="vision">
+            <h2>Our Vision</h2>
+            <p>We aim to transform communication by developing human-like AI agents that integrate with humanoid robots. In the future, these agents will enhance interactions, creating more engaging, efficient, and personalized experiences.</p>
+        </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <!-- <div class="nav">
-            <a href="/policies">Policies</a>
-            <a href="/help">Help</a>
-            <a href="/terms">Terms</a>
-            <a href="/careers">Careers</a>
-        </div> -->
         <p>&copy; 2024 AI Virtual Persona Agents. All Rights Reserved.</p>
     </footer>
 
     <script>
-
         function getCookie(name) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
@@ -224,9 +251,6 @@
 
         if (getCookie("token") == null){
             window.location = "/login";
-        }
-        else{
-
         }
     </script>
 </body>
